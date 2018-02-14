@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email import encoders
 import requests
 import configparser
-from datetime import date
+from datetime import date, timedelta
 
 
 path = "settings.ini"
@@ -18,8 +18,7 @@ hlogin = config.get("Settings", "hlogin")
 hpass = config.get("Settings", "hpass")
 url = config.get("Settings", "url")
 
-f_date = date.strftime(date.today(), ("%Y%m%d"))
-f_name = int(f_date) - 3
+f_date = date.strftime(date.today() - timedelta(days=3), ("%Y%m%d"))
 h_filename = "bknProfi.{}.xlsx".format(f_name)
 s_file = '{}.xlsx'.format(f_name)
 http = url + h_filename
