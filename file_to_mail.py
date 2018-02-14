@@ -19,8 +19,8 @@ hpass = config.get("Settings", "hpass")
 url = config.get("Settings", "url")
 
 f_date = date.strftime(date.today() - timedelta(days=3), ("%Y%m%d"))
-h_filename = "bknProfi.{}.xlsx".format(f_name)
-s_file = '{}.xlsx'.format(f_name)
+h_filename = "bknProfi.{}.xlsx".format(f_date)
+s_file = '{}.xlsx'.format(f_date)
 http = url + h_filename
 
 request = requests.get(http, auth=(hlogin, hpass))
