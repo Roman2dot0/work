@@ -76,11 +76,8 @@ RUN /usr/bin/luarocks-5.1 install lua-resty-socket \
     && /usr/bin/luarocks install luajson \
     && /usr/bin/luarocks install lua-curl \
     && cd /usr/src \
-    && git clone https://github.com/tarantool/tarantool-lua.git \
     && git clone https://github.com/cloudflare/raven-lua \
     && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/ \
-    && cd /usr/src/tarantool-lua \
-    && /usr/bin/luarocks install lua-tarantool-scm-1.rockspec
 RUN wget http://asterisk.hosting.lv/bin/codec_g729-ast160-gcc4-glibc-x86_64-pentium4.so -O /usr/lib64/asterisk/modules/g729.so
 
 #MAX FILES UP
