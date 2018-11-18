@@ -10,7 +10,7 @@ kernel-devel libuuid-devel net-snmp-devel unixODBC \
 unixODBC-devel mysql-connector-odbc libtool-ltdl \
 libtool-ltdl-devel xinetd tar make git wget file \
 openssh-server postgresql-odbc libuuid-devel speex-devel \
-jansson-devel lua lua-devel unzip readline-devel \
+lua lua-devel unzip readline-devel \
 postgresql-devel mysql-devel curl-devel lualibedit-devel \
 libedit-devel epel-release
 RUN yum -y upgrade \
@@ -74,12 +74,13 @@ RUN /usr/bin/luarocks-5.1 install lua-resty-socket \
     && /usr/bin/luarocks install lua-requests \
     && /usr/bin/luarocks install inspect \
     && /usr/bin/luarocks install luajson \
-    && /usr/bin/luarocks install lua-curl
+    && /usr/bin/luarocks install lua-curl 
 RUN cd /usr/src/ \
     && git clone https://github.com/cloudflare/raven-lua \
     && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/
 RUN wget http://asterisk.hosting.lv/bin/codec_g729-ast160-gcc4-glibc-x86_64-pentium4.so -O /usr/lib64/asterisk/modules/g729.so
 RUN yum clean all
+RUN rm -rf /var/cache/yum
 
 #MAX FILES UP
 RUN sed -i 's/'\#\ MAXFILES\=\32768'/'MAXFILES\=\99989'/g' /usr/sbin/safe_asterisk && sed -i 's/TTY=9/TTY=/g' /usr/sbin/safe_asterisk
