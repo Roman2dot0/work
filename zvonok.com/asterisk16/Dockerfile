@@ -60,6 +60,10 @@ RUN cd /usr/src \
 RUN /usr/bin/luarocks-5.1 install lua-resty-socket \
     && /usr/bin/luarocks install sha1 \
     && /usr/bin/luarocks install lua-MessagePack \
+    && /usr/bin/luarocks install lbase64 \
+    && /usr/bin/luarocks install md5 \
+    && /usr/bin/luarocks install xml \
+    && /usr/bin/luarocks install luasec \
     && /usr/bin/luarocks install luasocket \
     && /usr/bin/luarocks install luasql-postgres \
     && /usr/bin/luarocks install luacrypto \
@@ -68,17 +72,13 @@ RUN /usr/bin/luarocks-5.1 install lua-resty-socket \
     && /usr/bin/luarocks install luaposix \
     && /usr/bin/luarocks install luasec \
     && /usr/bin/luarocks install lua-requests \
-    && /usr/bin/luarocks install lbase64 \
-    && /usr/bin/luarocks install md5 \
-    && /usr/bin/luarocks install xml \
-    && /usr/bin/luarocks install luasec \
     && /usr/bin/luarocks install inspect \
     && /usr/bin/luarocks install luajson \
     && /usr/bin/luarocks install lua-curl \
-    && cd /usr/src \
     && git clone https://github.com/cloudflare/raven-lua \
-    && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/ \
+    && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/
 RUN wget http://asterisk.hosting.lv/bin/codec_g729-ast160-gcc4-glibc-x86_64-pentium4.so -O /usr/lib64/asterisk/modules/g729.so
+RUN yum clean all
 
 #MAX FILES UP
 RUN sed -i 's/'\#\ MAXFILES\=\32768'/'MAXFILES\=\99989'/g' /usr/sbin/safe_asterisk && sed -i 's/TTY=9/TTY=/g' /usr/sbin/safe_asterisk
