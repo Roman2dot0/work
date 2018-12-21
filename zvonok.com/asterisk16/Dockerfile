@@ -9,14 +9,13 @@ sqlite sqlite-devel openssl-devel newt-devel \
 kernel-devel libuuid-devel net-snmp-devel unixODBC \
 unixODBC-devel mysql-connector-odbc libtool-ltdl \
 libtool-ltdl-devel xinetd tar make git wget file \
-openssh-server postgresql-odbc libuuid-devel speex-devel \
+postgresql-odbc libuuid-devel speex-devel \
 lua lua-devel unzip readline-devel \
 postgresql-devel mysql-devel curl-devel lualibedit-devel \
 libedit-devel epel-release
-RUN yum -y upgrade \
-    && yum -y install luarocks
+RUN yum -y install luarocks
 RUN mkdir -p /usr/src/asterisk \
-    && cd /usr/src \    
+    && cd /usr/src \
     && wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz \
     && tar -xzvf /usr/src/asterisk-16-current.tar.gz --strip-components=1 -C /usr/src/asterisk \
     && mv /etc/localtime /etc/localtime.bak \
@@ -57,31 +56,30 @@ RUN cd /usr/src \
     && /usr/bin/sed -i 's/lib64\ \-lmysqlclient/lib64\/mysql\ \-lmysqlclient/g' config \
     && make mysql \
     && make install
-RUN /usr/bin/luarocks-5.1 install lua-resty-socket \
-    && /usr/bin/luarocks install sha1 \
-    && /usr/bin/luarocks install lua-MessagePack \
-    && /usr/bin/luarocks install lbase64 \
-    && /usr/bin/luarocks install md5 \
-    && /usr/bin/luarocks install xml \
-    && /usr/bin/luarocks install luasec \
-    && /usr/bin/luarocks install luasocket \
-    && /usr/bin/luarocks install luasql-postgres \
-    && /usr/bin/luarocks install luacrypto \
-    && /usr/bin/luarocks install lunit \
-    && /usr/bin/luarocks install lua-cjson \
-    && /usr/bin/luarocks install luaposix \
-    && /usr/bin/luarocks install luasec \
-    && /usr/bin/luarocks install lua-requests \
-    && /usr/bin/luarocks install inspect \
-    && /usr/bin/luarocks install luajson \
-    && /usr/bin/luarocks install lua-curl 
-RUN cd /usr/src/ \
+RUN luarocks install lua-resty-socket \
+    && /bin/luarocks install luasocket \
+    && /bin/luarocks install luasec \
+    && /bin/luarocks install sha1 \
+    && /bin/luarocks install lua-MessagePack \
+    && /bin/luarocks install luasql-postgres \
+    && /bin/luarocks install luacrypto \
+    && /bin/luarocks install lunit \
+    && /bin/luarocks install lua-cjson \
+    && /bin/luarocks install luaposix \
+    && /bin/luarocks install lbase64 \
+    && /bin/luarocks install md5 \
+    && /bin/luarocks install xml \
+    && /bin/luarocks install inspect \
+    && /bin/luarocks install luajson \
+    && /bin/luarocks install lua-curl \
+    && /bin/luarocks install lua-requests \
+    && cd /usr/src \
     && git clone https://github.com/cloudflare/raven-lua \
     && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/
 RUN wget http://asterisk.hosting.lv/bin/codec_g729-ast160-gcc4-glibc-x86_64-pentium4.so -O /usr/lib64/asterisk/modules/g729.so
-RUN yum clean all
-RUN rm -rf /var/cache/yum
-
+RUN yum remove -y *devel
+RUN yum -y autoremove && yum -y clean all && rm -rf /var/cache/yum && rm -rf /usr/src/*
 #MAX FILES UP
 RUN sed -i 's/'\#\ MAXFILES\=\32768'/'MAXFILES\=\99989'/g' /usr/sbin/safe_asterisk && sed -i 's/TTY=9/TTY=/g' /usr/sbin/safe_asterisk
+#VOLUME
 CMD /usr/sbin/asterisk -f -vvvg -c
