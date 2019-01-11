@@ -1,7 +1,7 @@
 FROM centos:centos7
 LABEL authors="hes88@mail.ru, kud.rom.sh@gmail.com"
 
-RUN yum -y upgrade
+RUN yum -y update
 RUN yum -y install \
 kernel-headers gcc gcc-c++ cpp bzip2 patch \
 ncurses ncurses-devel libxml2 libxml2-devel \
@@ -9,13 +9,13 @@ sqlite sqlite-devel openssl-devel newt-devel \
 kernel-devel libuuid-devel net-snmp-devel unixODBC \
 unixODBC-devel mysql-connector-odbc libtool-ltdl \
 libtool-ltdl-devel xinetd tar make git wget file \
-postgresql-odbc libuuid-devel speex-devel \
+postgresql-odbc libuuid-devel \
 lua lua-devel unzip readline-devel \
 postgresql-devel mysql-devel curl-devel lualibedit-devel \
 libedit-devel epel-release
 RUN yum -y install luarocks
 RUN mkdir -p /usr/src/asterisk \
-    && cd /usr/src \
+    && cd /usr/src \    
     && wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz \
     && tar -xzvf /usr/src/asterisk-16-current.tar.gz --strip-components=1 -C /usr/src/asterisk \
     && mv /etc/localtime /etc/localtime.bak \
@@ -36,7 +36,6 @@ RUN mkdir -p /usr/src/asterisk \
   --disable cdr_sqlite3_custom \
   --enable chan_sip \
   --enable res_snmp \
-  --enable func_speex \
   menuselect.makeopts \
   && make && make install && make samples
 #Install Lame to Centos, converting WAV to MP3 app
@@ -82,4 +81,4 @@ RUN yum -y autoremove && yum -y clean all && rm -rf /var/cache/yum && rm -rf /us
 #MAX FILES UP
 RUN sed -i 's/'\#\ MAXFILES\=\32768'/'MAXFILES\=\99989'/g' /usr/sbin/safe_asterisk && sed -i 's/TTY=9/TTY=/g' /usr/sbin/safe_asterisk
 #VOLUME
-CMD /usr/sbin/asterisk -f -vvvg -c
+CMD /usr/sbin/asterisk -f -vvvg -c 
