@@ -66,8 +66,6 @@ libedit-devel epel-release libffi-devel \
     && /bin/luarocks install lua-curl \
     && /bin/luarocks install lua-requests \
     && cd /usr/src \
-    && git clone https://github.com/cloudflare/raven-lua \
-    && cp -r /usr/src/raven-lua/raven /usr/share/lua/5.1/ \
     && wget http://asterisk.hosting.lv/bin/codec_g729-ast160-gcc4-glibc-x86_64-pentium4.so -O /usr/lib64/asterisk/modules/g729.so \
     && rm -rf /usr/src \
     && yum remove -y --setopt=tsflags=noscripts *devel git gcc gcc-c++ cpp iproute iptables wget \
