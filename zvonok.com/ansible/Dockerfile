@@ -24,5 +24,5 @@ RUN apk add --no-cache \
     build-base \
     g++ \
 && rm -rf /var/cache/* && rm -rf /root/.cache/*
-RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+RUN if [ ! -e /usr/bin/pip ]; then ln -s /usr/bin/pip3 /usr/bin/pip ; fi && \
 if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi
