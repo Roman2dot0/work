@@ -74,4 +74,4 @@ libedit-devel epel-release libffi-devel \
     && rm -rf /usr/src/*
 #MAX FILES UP
 RUN sed -i 's/'\#\ MAXFILES\=\32768'/'MAXFILES\=\99989'/g' /usr/sbin/safe_asterisk && sed -i 's/TTY=9/TTY=/g' /usr/sbin/safe_asterisk
-CMD asterisk -f
+ENTRYPOINT ["asterisk", "-f"]
